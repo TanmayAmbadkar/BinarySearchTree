@@ -75,7 +75,7 @@ public class BinarySearchTree
         {
             if(x.right==null && x.left==null)
             x=null;
-            else if(x.right==null && x.left==null)
+            else if(x.right==null && x.left!=null)
             {
                 TreeNode parent=findParent(x,root);
                 if(parent.right==x)
@@ -83,7 +83,7 @@ public class BinarySearchTree
                 else
                 parent.left=x.left;
             }
-            else if(x.left==null && x.right==null)
+            else if(x.left==null && x.right!=null)
             {
                 TreeNode parent=findParent(x,root);
                 if(parent.right==x)
