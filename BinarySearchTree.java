@@ -124,8 +124,8 @@ public class BinarySearchTree
     {
         if(r==null)
             return;
-        inOrderTraversal(r.left);
-        inOrderTraversal(r.right);
+        postOrderTraversal(r.left);
+        postOrderTraversal(r.right);
         System.out.println(r.val);            
     }
 }
