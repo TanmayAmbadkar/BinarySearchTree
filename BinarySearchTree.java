@@ -117,8 +117,8 @@ public class BinarySearchTree
         if(r==null)
             return;
         System.out.println(r.val);
-        inOrderTraversal(r.left);
-        inOrderTraversal(r.right);            
+        preOrderTraversal(r.left);
+        preOrderTraversal(r.right);            
     }
     public void postOrderTraversal(TreeNode r)
     {
