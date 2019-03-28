@@ -117,15 +117,15 @@ public class BinarySearchTree
         if(r==null)
             return;
         System.out.println(r.val);
-        inOrderTraversal(r.left);
-        inOrderTraversal(r.right);            
+        preOrderTraversal(r.left);
+        preOrderTraversal(r.right);            
     }
     public void postOrderTraversal(TreeNode r)
     {
         if(r==null)
             return;
-        inOrderTraversal(r.left);
-        inOrderTraversal(r.right);
+        postOrderTraversal(r.left);
+        postOrderTraversal(r.right);
         System.out.println(r.val);            
     }
 }
