@@ -74,7 +74,13 @@ public class BinarySearchTree
         else
         {
             if(x.right==null && x.left==null)
-            x=null;
+            {
+                TreeNode m=findParent(x,root);
+                if(m.right==x)
+                    m.right=null;
+                else
+                    m.left=null;
+            }
             else if(x.right==null && x.left!=null)
             {
                 TreeNode parent=findParent(x,root);
@@ -104,28 +110,48 @@ public class BinarySearchTree
             }
         }
     }
-    public void inOrderTraversal(TreeNode r)
+    private int height(TreeNode<Integer> r)
+    {
+        if(r==null)
+        return -1;
+        int l=height(r.left);
+        int ri=height(r.right);
+        return Math.max(l,ri)+1;
+    }
+    public void inOrderTraversal()
+    {
+        inOrderTraversal(root);
+    }
+    public void preOrderTraversal()
+    {
+        preOrderTraversal(root);
+    }
+    public void postOrderTraversal()
+    {
+        postOrderTraversal(root);
+    }
+    private void inOrderTraversal(TreeNode r)
     {
         if(r==null)
             return;
         inOrderTraversal(r.left);
-        System.out.println(r.val);
+        System.out.print(r.val+", ");
         inOrderTraversal(r.right);            
     }
-    public void preOrderTraversal(TreeNode r)
+    private void preOrderTraversal(TreeNode r)
     {
         if(r==null)
             return;
-        System.out.println(r.val);
+        System.out.print(r.val+", ");
         preOrderTraversal(r.left);
         preOrderTraversal(r.right);            
     }
-    public void postOrderTraversal(TreeNode r)
+    private void postOrderTraversal(TreeNode r)
     {
         if(r==null)
             return;
         postOrderTraversal(r.left);
         postOrderTraversal(r.right);
-        System.out.println(r.val);            
+        System.out.print(r.val+", ");            
     }
 }
