@@ -1,160 +1,132 @@
-import java.util.*;
-public class BinarySearchTree
-{
-    TreeNode<Integer> root;
-    BinarySearchTree()
-    {
-        root=null;
+public class BST {
+    Tree root;
+
+    BST(int val) {
+        root = new Tree(val);
     }
-    public void insert(int val)
-    {
-        root=insert(val, root);
+
+    void InsertElement(int key) {
+        root = InsertElement(key, root);
     }
-    private TreeNode<Integer> insert(int val, TreeNode<Integer> rt)
-    {
-        if(rt==null)
-            rt=new TreeNode<Integer>(val);
-        else if(val<rt.val)
-        {
-            if(rt.left==null)
-                rt.left=insert(val,rt.left);
+
+    Tree InsertElement(int key, Tree rt) {
+
+        if (rt.val > key) {
+            if (rt.lc == null)
+                rt.lc = new Tree(key);
             else
-                insert(val, rt.left);
+                rt.lc = InsertElement(key, rt.lc);
         }
-        else if(val>rt.val)
-        {
-            if(rt.right==null)
-                rt.right=insert(val,rt.right);
+        if (rt.val < key) {
+            if (rt.rc == null)
+                rt.rc = new Tree(key);
             else
-                insert(val, rt.right);
+                rt.rc = InsertElement(key, rt.rc);
+
         }
         return rt;
     }
-    public void search(int val)
-    {
-        TreeNode x=search(val, root);
-        if(x==null)
-        System.out.println("Element not found");
+
+    private Tree SearchElement(int a, Tree rt) {
+        if (rt.val == a)
+            return rt;
+        else if (a > rt.val)
+            return SearchElement(a, rt.rc);
         else
-        System.out.println("Element Found");
+            return SearchElement(a, rt.lc);
     }
-    private TreeNode search(int val, TreeNode<Integer> rt)
-    {
-        if(val==rt.val)
-        return rt;
-        else if(val<rt.val)
-        {
-            if(rt.left!=null)
-                return search(val, rt.left);
-            else
-                return null;
-        }
-        else
-        {
-            if(rt.right!=null)
-                return search(val, rt.right);
-            else
-                return null;
+
+    void PreOrderTraverse(Tree rt) {
+        if (rt != null) {
+            System.out.println(rt.val + ", ");
+            PreOrderTraverse(rt.lc);
+            PreOrderTraverse(rt.rc);
         }
     }
-    private TreeNode findParent(TreeNode<Integer> x, TreeNode<Integer> p)
-    {
-        if(p.right==x || p.left==x)
-            return p;
-        else
-        {
-            if(x.val<p.val)
-            return findParent(x,p.left);
-            else
-            return findParent(x,p.right);
+
+    void InOrderTraverse(Tree rt) {
+        if (rt != null) {
+            InOrderTraverse(rt.lc);
+            System.out.print(rt.val + ", ");
+            InOrderTraverse(rt.rc);
+        }
+
+    }
+
+    void PostOrderTraverse(Tree rt) {
+        if (rt != null) {
+            PostOrderTraverse(rt.lc);
+            PostOrderTraverse(rt.rc);
+            System.out.print(rt.val + ", ");
         }
     }
-    public void delete(int val)
-    {
-        TreeNode x=search(val,root);
-        if(x==null)
-        throw new NoSuchElementException();
-        else
-        {
-            if(x.right==null && x.left==null)
-            {
-                TreeNode m=findParent(x,root);
-                if(m.right==x)
-                    m.right=null;
-                else
-                    m.left=null;
+
+    Tree findparent(Tree node, int value) {
+        if (node.lc != null) {
+            if (node.lc.val == value)
+                return node;
+        }
+        if (node.rc != null) {
+            if (node.rc.val == value)
+                return node;
+        }
+
+        if (node.val > value) {
+            return findparent(node.lc, value);
+        } else {
+            return findparent(node.rc, value);
+        }
+
+    }
+
+    void DeleteElement(int a) {
+
+        Tree ele = SearchElement(a, root);
+        if (ele.lc == null && ele.rc == null) {
+            Tree parent = findparent(root, a);
+            if (a > parent.val) {
+                parent.rc = null;
+            } else {
+                parent.lc = null;
             }
-            else if(x.right==null && x.left!=null)
-            {
-                TreeNode parent=findParent(x,root);
-                if(parent.right==x)
-                parent.right=x.left;
-                else
-                parent.left=x.left;
-            }
-            else if(x.left==null && x.right!=null)
-            {
-                TreeNode parent=findParent(x,root);
-                if(parent.right==x)
-                parent.right=x.right;
-                else
-                parent.left=x.right;
-            }
-            else
-            {
-                TreeNode<Integer> par=x.left;
-                while(par.right!=null)
-                {
-                    par=par.right;
+        } else {
+            if (ele.lc == null && ele.rc != null) {
+                if (ele.val == root.val) {
+                    int temp = root.rc.val;
+                    DeleteElement(root.rc.val);
+                    root.val = temp;
+                } else {
+                    Tree parent = findparent(root, a);
+                    if (parent.rc == ele) {
+                        parent.rc = ele.rc;
+                    } else {
+                        parent.lc = ele.rc;
+                    }
                 }
-                int temp=par.val;
-                delete(par.val);
-                x.val=temp;
+            } else {
+                if (ele.rc == null && ele.lc != null) {
+                    if (ele.val == root.val) {
+                        int temp = root.lc.val;
+                        DeleteElement(root.lc.val);
+                        root.val = temp;
+                    } else {
+                        Tree parent = findparent(root, a);
+                        if (parent.rc == ele) {
+                            parent.rc = ele.lc;
+                        } else {
+                            parent.lc = ele.lc;
+                        }
+                    }
+                } else {
+                    Tree temp = ele.lc;
+                    while (temp.rc != null) {
+                        temp = temp.rc;
+                    }
+                    int key = temp.val;
+                    DeleteElement(key);
+                    ele.val = key;
+                }
             }
         }
-    }
-    private int height(TreeNode<Integer> r)
-    {
-        if(r==null)
-        return -1;
-        int l=height(r.left);
-        int ri=height(r.right);
-        return Math.max(l,ri)+1;
-    }
-    public void inOrderTraversal()
-    {
-        inOrderTraversal(root);
-    }
-    public void preOrderTraversal()
-    {
-        preOrderTraversal(root);
-    }
-    public void postOrderTraversal()
-    {
-        postOrderTraversal(root);
-    }
-    private void inOrderTraversal(TreeNode r)
-    {
-        if(r==null)
-            return;
-        inOrderTraversal(r.left);
-        System.out.print(r.val+", ");
-        inOrderTraversal(r.right);            
-    }
-    private void preOrderTraversal(TreeNode r)
-    {
-        if(r==null)
-            return;
-        System.out.print(r.val+", ");
-        preOrderTraversal(r.left);
-        preOrderTraversal(r.right);            
-    }
-    private void postOrderTraversal(TreeNode r)
-    {
-        if(r==null)
-            return;
-        postOrderTraversal(r.left);
-        postOrderTraversal(r.right);
-        System.out.print(r.val+", ");            
     }
 }
