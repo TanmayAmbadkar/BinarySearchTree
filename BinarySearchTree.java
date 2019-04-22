@@ -2,32 +2,35 @@ import java.util.*;
 public class BinarySearchTree
 {
     TreeNode<Integer> root;
-    BinarySearchTree(Integer val)
+    BinarySearchTree()
     {
-        root=new TreeNode<Integer>(val);
+        root=null;
     }
-    public void insert(Integer val)
+    public void insert(int val)
     {
-        insert(val, root);
+        root=insert(val, root);
     }
-    private void insert(Integer val, TreeNode<Integer> rt)
+    private TreeNode<Integer> insert(int val, TreeNode<Integer> rt)
     {
-        if(val<rt.val)
+        if(rt==null)
+            rt=new TreeNode<Integer>(val);
+        else if(val<rt.val)
         {
             if(rt.left==null)
-                rt.left=new TreeNode<Integer>(val);
+                rt.left=insert(val,rt.left);
             else
                 insert(val, rt.left);
         }
         else if(val>rt.val)
         {
             if(rt.right==null)
-                rt.right=new TreeNode<Integer>(val);
+                rt.right=insert(val,rt.right);
             else
                 insert(val, rt.right);
         }
+        return rt;
     }
-    public void search(Integer val)
+    public void search(int val)
     {
         TreeNode x=search(val, root);
         if(x==null)
@@ -35,7 +38,7 @@ public class BinarySearchTree
         else
         System.out.println("Element Found");
     }
-    private TreeNode search(Integer val, TreeNode<Integer> rt)
+    private TreeNode search(int val, TreeNode<Integer> rt)
     {
         if(val==rt.val)
         return rt;
@@ -66,9 +69,9 @@ public class BinarySearchTree
             return findParent(x,p.right);
         }
     }
-    public void delete(Integer val)
+    public void delete(int val)
     {
-        TreeNode x=search(val, root);
+        TreeNode x=search(val,root);
         if(x==null)
         throw new NoSuchElementException();
         else
