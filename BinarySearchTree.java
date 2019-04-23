@@ -59,7 +59,9 @@ public class BinarySearchTree
     }
     private TreeNode findParent(TreeNode<Integer> x, TreeNode<Integer> p)
     {
-        if(p.right==x || p.left==x)
+        if(x==root)
+            return x;
+        else if(p.right==x || p.left==x)
             return p;
         else
         {
@@ -87,6 +89,8 @@ public class BinarySearchTree
             else if(x.right==null && x.left!=null)
             {
                 TreeNode parent=findParent(x,root);
+                if(x==root)
+                    root=root.left;
                 if(parent.right==x)
                 parent.right=x.left;
                 else
@@ -94,6 +98,8 @@ public class BinarySearchTree
             }
             else if(x.left==null && x.right!=null)
             {
+                if(x==root)
+                    root=root.right;
                 TreeNode parent=findParent(x,root);
                 if(parent.right==x)
                 parent.right=x.right;
@@ -138,14 +144,14 @@ public class BinarySearchTree
         if(r==null)
             return;
         inOrderTraversal(r.left);
-        System.out.print(r.val+", ");
+        System.out.print(r.val+" ");
         inOrderTraversal(r.right);            
     }
     private void preOrderTraversal(TreeNode r)
     {
         if(r==null)
             return;
-        System.out.print(r.val+", ");
+        System.out.print(r.val+" ");
         preOrderTraversal(r.left);
         preOrderTraversal(r.right);            
     }
@@ -155,6 +161,6 @@ public class BinarySearchTree
             return;
         postOrderTraversal(r.left);
         postOrderTraversal(r.right);
-        System.out.print(r.val+", ");            
+        System.out.print(r.val+" ");            
     }
 }
