@@ -59,9 +59,7 @@ public class BinarySearchTree
     }
     private TreeNode findParent(TreeNode<Integer> x, TreeNode<Integer> p)
     {
-        if(x==root)
-            return x;
-        else if(p.right==x || p.left==x)
+        if(p.right==x || p.left==x)
             return p;
         else
         {
@@ -88,9 +86,12 @@ public class BinarySearchTree
             }
             else if(x.right==null && x.left!=null)
             {
-                TreeNode parent=findParent(x,root);
                 if(x==root)
+                {
                     root=root.left;
+                    return;
+                }
+                TreeNode parent=findParent(x,root);
                 if(parent.right==x)
                 parent.right=x.left;
                 else
@@ -99,7 +100,10 @@ public class BinarySearchTree
             else if(x.left==null && x.right!=null)
             {
                 if(x==root)
+                {
                     root=root.right;
+                    return;
+                }
                 TreeNode parent=findParent(x,root);
                 if(parent.right==x)
                 parent.right=x.right;
